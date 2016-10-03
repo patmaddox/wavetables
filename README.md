@@ -26,3 +26,4 @@ single cycle waveforms.
 
 * Support more than 2 waveforms to be interpolated
 * Try it with longer waveforms
+* Create wavetables using spectral morphing instead of crossfading interpolation
