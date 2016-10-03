@@ -48,10 +48,12 @@ FileUtils.mkdir(wt_dir) unless File.directory?(wt_dir)
 `submix inbetween 1 "#{file1}" "#{file2}" #{interpolations_dir}/output 128`
 if `sndinfo props #{interpolations_dir}/output001.wav` =~ /^samples\:.* (\d+)$/
   outfilename ||= "wt"
-  outfile = "#{wt_dir}/#{outfilename}_#{$1}.wav"
-  if File.file?(outfile)
-    $stderr.puts "Unable to create #{outfile}: file already exists"
-    exit 1
+  size = $1
+  outfile = "#{wt_dir}/#{outfilename}_#{size}.wav"
+  count = 0
+  until !File.file?(outfile)
+    count += 1
+    outfile = "#{wt_dir}/#{outfilename}#{count}_#{size}.wav"
   end
   `sfedit join #{interpolations_dir}/output*.wav #{outfile}  -w0`
   puts "File written to #{outfile}"
