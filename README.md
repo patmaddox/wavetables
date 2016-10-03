@@ -2,6 +2,10 @@
 
 Software for making wavetable audio files for use in UVI Falcon.
 
+## Dependencies
+
+* [Composers Desktop Project](http://www.unstablesound.net/cdp.html)
+
 ## Mode 1: Choose your own files to interpolate
 
 Run `ruby wavetables.rb file1.wav file2.wav` to create a wavetable interpolating
