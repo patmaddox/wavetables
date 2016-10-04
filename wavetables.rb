@@ -19,14 +19,13 @@ if ENV['random']
     $stderr.puts "Please pass in an output file name"
     exit 1
   end
-elsif ARGV.size < 2
+elsif ARGV.size < 3
   $stderr.puts <<-END
-  Please pass in at least two audio files.
-  Example: ruby wavetables.rb file1 file2
+  Usage: ruby wavetables.rb file1.wav file2.wav outfilename
   END
   exit 1
 else
-  missing_files = ARGV.select {|f| !File.file?(f) }
+  missing_files = ARGV.first(2).select {|f| !File.file?(f) }
   unless missing_files.empty?
     $stderr.puts <<-END
       Missing files: #{missing_files.join(", ")}
@@ -36,6 +35,7 @@ else
 
   file1 = ARGV[0]
   file2 = ARGV[1]
+  outfilename = ARGV[2]
 end
 
 gen_dir = "_gen"
