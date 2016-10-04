@@ -43,17 +43,24 @@ FileUtils.mkdir(gen_dir) unless File.directory?(gen_dir)
 interpolations_dir = "#{gen_dir}/interpolations"
 FileUtils.rm_rf interpolations_dir
 FileUtils.mkdir_p interpolations_dir
-wt_dir = "#{gen_dir}/wavetables"
-FileUtils.mkdir(wt_dir) unless File.directory?(wt_dir)
+if ENV['wt_dir']
+  wt_dir = File.expand_path(ENV['wt_dir'])
+  unless File.directory?(wt_dir)
+    $stderr.puts "Wavetable dir #{wt_dir} is missing"
+    exit
+  end
+else
+  wt_dir = "#{gen_dir}/wavetables"
+  FileUtils.mkdir(wt_dir) unless File.directory?(wt_dir)
+end
 `submix inbetween 1 "#{file1}" "#{file2}" #{interpolations_dir}/output 128`
 if `sndinfo props #{interpolations_dir}/output001.wav` =~ /^samples\:.* (\d+)$/
-  outfilename ||= "wt"
   size = $1
   outfile = "#{wt_dir}/#{outfilename}_#{size}.wav"
   count = 0
   until !File.file?(outfile)
     count += 1
-    outfile = "#{wt_dir}/#{outfilename}#{count}_#{size}.wav"
+    outfile = "#{wt_dir}/#{outfilename}-#{count}_#{size}.wav"
   end
   `sfedit join #{interpolations_dir}/output*.wav #{outfile}  -w0`
   puts "File written to #{outfile}"

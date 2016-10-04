@@ -22,6 +22,11 @@ directory.
 [Adventure Kid Waveforms](http://www.adventurekid.se/akrt/waveforms/adventure-kid-waveforms/)
 single cycle waveforms.
 
+## Output directory option
+
+You can pass the `wt_dir` command-line variable to set an output directory for
+generated wavetables.
+
 ## TODO
 
 * Support more than 2 waveforms to be interpolated
